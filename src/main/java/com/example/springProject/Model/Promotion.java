@@ -16,4 +16,7 @@ public class Promotion {
 
     @Column
     private String type;
+
+    @Column
+    private Long discountRateOrPrice;
 }

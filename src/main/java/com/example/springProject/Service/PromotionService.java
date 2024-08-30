@@ -37,6 +37,7 @@ public class PromotionService {
         promotion1.setId(promotion.getId());
         promotion1.setName(promotion.getName());
         promotion1.setName(promotion.getName());
+        promotion1.setDiscountRateOrPrice(promotion.getDiscountRateOrPrice());
 
         return promotionRepo.save(promotion1);
     }
