@@ -1,5 +1,7 @@
 package com.example.springProject.Model;
 
+import com.example.springProject.Enum.PromotionEnum;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,9 +16,10 @@ public class Promotion {
     @Column
     private String name;
 
-    @Column
-    private String type;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PromotionEnum type;
 
     @Column
-    private Long discountRateOrPrice;
+    private Long discount;
 }

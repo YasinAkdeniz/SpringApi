@@ -13,7 +13,7 @@ public class PromotionController {
     @Autowired
     private PromotionService promotionService;
 
-    @GetMapping("/promotions")
+    @GetMapping("/promotion")
     public List<Promotion> getAllPromotion(){
        return promotionService.getPromotions();
     }

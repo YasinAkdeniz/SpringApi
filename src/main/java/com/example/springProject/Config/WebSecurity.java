@@ -28,6 +28,9 @@ public class WebSecurity {
                                 .requestMatchers("/products/**").permitAll()
                                 .requestMatchers("/addCart").permitAll()
                                 .requestMatchers("/error").permitAll()
+                                .requestMatchers("/promotion/add").permitAll()
+                                .requestMatchers("/promotion/**").permitAll()
+
                                 .anyRequest().authenticated()
                 );
         return http.build();
