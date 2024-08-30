@@ -1,7 +1,6 @@
 package com.example.springProject.Service;
 
-import com.example.springProject.Entity.Products;
-import com.example.springProject.Entity.User;
+import com.example.springProject.Model.Products;
 import com.example.springProject.Repository.ProductRepo;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

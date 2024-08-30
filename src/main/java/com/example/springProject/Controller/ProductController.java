@@ -1,6 +1,6 @@
 package com.example.springProject.Controller;
 
-import com.example.springProject.Entity.Products;
+import com.example.springProject.Model.Products;
 import com.example.springProject.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
