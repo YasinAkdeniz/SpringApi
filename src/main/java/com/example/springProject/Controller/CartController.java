@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class CartController {
 
@@ -30,11 +32,11 @@ public class CartController {
     PromotionRepo promotionRepo;
 
     @PostMapping("/addCart")
-    public ResponseEntity<Cart> addCart(@RequestParam Long userId, @RequestParam Long productId, @RequestParam Long promotionId) {
+    public ResponseEntity<Cart> addCart(@RequestParam Long userId, @RequestParam List<Long> productIds, @RequestParam Long promotionId) {
         User user = userRepo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        Products products = productRepo.findById(productId).orElseThrow(()-> new RuntimeException("Product Not Fount"));
+        List<Products> productList = productRepo.findAllById(productIds);
         Promotion promotion = promotionRepo.findById(promotionId).orElseThrow(()-> new RuntimeException("Promotion Not Fount"));
-        Cart cart = cartService.addCart(user,products,promotion);
+        Cart cart = cartService.addCart(user,productList,promotion);
 
         return ResponseEntity.ok(cart);
     }

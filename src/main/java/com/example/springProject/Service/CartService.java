@@ -9,6 +9,8 @@ import com.example.springProject.Repository.CartRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CartService {
 
@@ -16,17 +18,22 @@ public class CartService {
     CartRepo cartRepo;
 
 
-    public Cart addCart(User user, Products products, Promotion promotion) {
+    public Cart addCart(User user, List<Products> productsList, Promotion promotion) {
         Cart cart = new  Cart();
         cart.setUser(user);
-        cart.setProducts(products);
+        cart.setProducts(productsList);
         cart.setPromotion(promotion);
-        cart.setTotalPrice(calculateTotalPrice(promotion, products.getPrice()));
 
+        Double totalPrice = 0.00;
+
+        for (Products products : productsList) {
+            totalPrice += products.getPrice();
+        }
+        cart.setTotalPrice(calculateTotalPrice(promotion, totalPrice));
         return cartRepo.save(cart);
     }
 
-    public Long calculateTotalPrice(Promotion promotion, Long totalPrice)  {
+    public Double calculateTotalPrice(Promotion promotion, Double totalPrice)  {
        if (promotion.getType() == PromotionEnum.RATE) {
            totalPrice = (totalPrice / 100) * promotion.getDiscount();
        } else if (promotion.getType() == PromotionEnum.PRICE) {

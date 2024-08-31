@@ -3,6 +3,8 @@ package com.example.springProject.Model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Data
 public class Cart {
@@ -14,12 +16,12 @@ public class Cart {
     @ManyToOne
     private User user;
 
-    @ManyToOne
-    private Products products;
+    @ManyToMany
+    private List<Products> products;
 
     @ManyToOne
     private Promotion promotion;
 
     @Column
-    private Long totalPrice;
+    private Double totalPrice;
 }
