@@ -30,7 +30,7 @@ public class WebSecurity {
                                 .requestMatchers("/error").permitAll()
                                 .requestMatchers("/promotion/add").permitAll()
                                 .requestMatchers("/promotion/**").permitAll()
-
+                                .requestMatchers("/createOrder").permitAll()
                                 .anyRequest().authenticated()
                 );
         return http.build();

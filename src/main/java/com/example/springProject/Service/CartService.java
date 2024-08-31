@@ -6,6 +6,7 @@ import com.example.springProject.Model.Products;
 import com.example.springProject.Model.Promotion;
 import com.example.springProject.Model.User;
 import com.example.springProject.Repository.CartRepo;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,5 +44,13 @@ public class CartService {
 
         return  totalPrice;
 
+    }
+
+    public Cart deleteCart(Long cartId) {
+        Cart cart =  cartRepo.findById(cartId).orElseThrow(
+                () -> new EntityNotFoundException("There is no cart id : " + cartId)
+        );
+        cartRepo.delete(cart);
+        return cart;
     }
 }
