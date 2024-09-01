@@ -22,19 +22,12 @@ public class WebSecurity {
                 .csrf(csrf -> csrf.disable())
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/user/register").permitAll()
-                                .requestMatchers("/user/**").permitAll()
-                                .requestMatchers("/products/add").permitAll()
-                                .requestMatchers("/products/**").permitAll()
-                                .requestMatchers("/addCart").permitAll()
-                                .requestMatchers("/error").permitAll()
-                                .requestMatchers("/promotion/add").permitAll()
-                                .requestMatchers("/promotion/**").permitAll()
-                                .requestMatchers("/createOrder").permitAll()
+                                .requestMatchers("/user/**", "/products/**", "/promotion/**", "/addCart", "/createOrder", "/error").permitAll()
                                 .anyRequest().authenticated()
                 );
         return http.build();
     }
+
 
     @Bean
     public PasswordEncoder sha256PasswordEncoder() {
