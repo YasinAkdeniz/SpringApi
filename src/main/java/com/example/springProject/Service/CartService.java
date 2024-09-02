@@ -3,6 +3,7 @@ package com.example.springProject.Service;
 import com.example.springProject.Enum.PromotionEnum;
 import com.example.springProject.Model.*;
 import com.example.springProject.Repository.CartRepo;
+import com.example.springProject.Repository.ProductRepo;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,9 @@ public class CartService {
 
     @Autowired
     CartRepo cartRepo;
+
+    @Autowired
+    ProductRepo productRepo;
 
 
     public Cart addCart(User user, List<Products> productList, Promotion promotion, Map<Long, Integer> productQuantities) {
@@ -41,6 +45,19 @@ public class CartService {
         }
 
         cart.setTotalPrice(calculateTotalPrice(promotion, totalPrice));
+
+
+        for (CartItem item : items) {
+            Products product = item.getProducts();
+            long newStockAmount = product.getStockAmount() - item.getQuantity();
+            if (newStockAmount < 0) {
+                throw new RuntimeException("Ürün stoğu yetersiz: " + product.getName());
+            }
+            System.out.println("ASDASDASDSA " + newStockAmount);
+            product.setStockAmount(newStockAmount);
+            productRepo.save(product);
+        }
+
         return cartRepo.save(cart);
     }
 
