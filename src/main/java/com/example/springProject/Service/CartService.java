@@ -27,7 +27,7 @@ public class CartService {
             CartItem item = new CartItem();
             item.setProducts(product);
             item.setQuantity(productQuantities.get(product.getId()));
-            item.setCart(cart);  // CartItem'ı Cart ile ilişkilendiriyoruz
+            item.setCart(cart);
             return item;
         }).collect(Collectors.toList());
 
