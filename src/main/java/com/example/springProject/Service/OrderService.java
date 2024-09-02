@@ -13,7 +13,7 @@ public class OrderService {
     OrderRepo orderRepo;
 
     @Autowired
-    CartRepo cartRepo;
+    CartService cartService;
 
     public Order createOrder(Cart cart){
         Order order = new Order();
@@ -25,7 +25,7 @@ public class OrderService {
         order.setDiscount(cart.getPromotion().getDiscount());
 
         orderRepo.save(order);
-        cartRepo.delete(cart);
+        cartService.deleteCart(cart.getId());
 
         return order;
     }

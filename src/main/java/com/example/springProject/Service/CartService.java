@@ -1,16 +1,15 @@
 package com.example.springProject.Service;
 
 import com.example.springProject.Enum.PromotionEnum;
-import com.example.springProject.Model.Cart;
-import com.example.springProject.Model.Products;
-import com.example.springProject.Model.Promotion;
-import com.example.springProject.Model.User;
+import com.example.springProject.Model.*;
 import com.example.springProject.Repository.CartRepo;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class CartService {
@@ -19,20 +18,32 @@ public class CartService {
     CartRepo cartRepo;
 
 
-    public Cart addCart(User user, List<Products> productsList, Promotion promotion) {
-        Cart cart = new  Cart();
+    public Cart addCart(User user, List<Products> productList, Promotion promotion, Map<Long, Integer> productQuantities) {
+        Cart cart = new Cart();
         cart.setUser(user);
-        cart.setProducts(productsList);
         cart.setPromotion(promotion);
 
-        Double totalPrice = 0.00;
+        List<CartItem> items = productList.stream().map(product -> {
+            CartItem item = new CartItem();
+            item.setProducts(product);
+            item.setQuantity(productQuantities.get(product.getId()));
+            item.setCart(cart);  // CartItem'ı Cart ile ilişkilendiriyoruz
+            return item;
+        }).collect(Collectors.toList());
 
-        for (Products products : productsList) {
-            totalPrice += products.getPrice();
+        cart.setItems(items);
+
+        double totalPrice = 0.00;
+
+        for (CartItem item : items) {
+            totalPrice += item.getProducts().getPrice() * item.getQuantity();
         }
+
         cart.setTotalPrice(calculateTotalPrice(promotion, totalPrice));
         return cartRepo.save(cart);
     }
+
+
 
     public Double calculateTotalPrice(Promotion promotion, Double totalPrice)  {
        if (promotion.getType() == PromotionEnum.RATE) {
@@ -46,11 +57,10 @@ public class CartService {
 
     }
 
-    public Cart deleteCart(Long cartId) {
+    public void deleteCart(Long cartId) {
         Cart cart =  cartRepo.findById(cartId).orElseThrow(
                 () -> new EntityNotFoundException("There is no cart id : " + cartId)
         );
         cartRepo.delete(cart);
-        return cart;
     }
 }
