@@ -34,7 +34,7 @@ public class CartController {
     PromotionRepo promotionRepo;
 
     @PostMapping("/addCart")
-    public ResponseEntity<Cart> addCart(@RequestParam Long userId, @RequestParam List<Long> productIds,
+    public ResponseEntity <Cart> addCart(@RequestParam Long userId, @RequestParam List<Long> productIds,
                                         @RequestParam List<Integer> quantities, @RequestParam Long promotionId) {
         User user = userRepo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         List<Products> productList = productRepo.findAllById(productIds);

@@ -22,6 +22,7 @@ public class CartService {
         Cart cart = new Cart();
         cart.setUser(user);
         cart.setPromotion(promotion);
+        cart.setProducts(productList);
 
         List<CartItem> items = productList.stream().map(product -> {
             CartItem item = new CartItem();
